@@ -39,6 +39,11 @@ async function coolStory (repoFullName) {
       }
       createdAt
       pushedAt
+      object(expression: "master:package.json") {
+        ... on Blob {
+          text
+        }
+      }
     }
   }`
 
@@ -49,6 +54,12 @@ async function coolStory (repoFullName) {
     Object.assign(result, repository)
   } catch (err) {
     return Promise.reject(err)
+  }
+
+  // clean up package.json
+  if (result.object && result.object.text) {
+    result.packageJSON = JSON.parse(result.object.text)
+    delete result.object
   }
   
   return result

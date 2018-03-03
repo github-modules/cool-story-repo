@@ -27,6 +27,13 @@ describe('data', () => {
     expect(repo.forkCount > -1).toBe(true)
   })
 
+  test('gets package.json contents', async () => {
+    expect(repo.packageJSON).toBeTruthy()
+    expect(repo.packageJSON.dependencies).toBeTruthy()
+    expect(repo.packageJSON.devDependencies).toBeTruthy()
+    expect(repo.packageJSON.scripts).toBeTruthy()
+  })
+
   test('does not include undesireable data returned by the GitHub API', async () => {
     expect(repo.downloads_url).toBe(undefined)
   })
