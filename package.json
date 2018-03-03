@@ -1,0 +1,21 @@
+{
+  "name": "cool-story-repo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv-safe": "^5.0.1",
+    "jest": "^22.4.2",
+    "nock": "^9.2.3",
+    "standard": "^11.0.0",
+    "standard-markdown": "^4.0.2"
+  },
+  "dependencies": {
+    "@octokit/rest": "^14.0.9",
+    "lodash": "^4.17.5"
+  },
+  "scripts": {
+    "test": "jest && standard",
+    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+  }
+}
