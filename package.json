@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@octokit/rest": "^14.0.9",
+    "graphql-request": "^1.5.1",
     "lodash": "^4.17.5"
   },
   "scripts": {
