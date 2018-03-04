@@ -46,6 +46,17 @@ async function coolStory (repoFullName) {
     delete result.object
   }
 
+  // clean up releases
+  if (result.releases && result.releases.edges) {
+    result.releases = result.releases.edges.map(edge => {
+      const release = edge.node
+      if (release.releaseAssets) {
+        release.assets = release.releaseAssets.edges.map(edge => edge.node)
+      }
+      return release
+    })
+  }
+
   return result
 }
 
