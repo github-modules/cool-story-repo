@@ -15,17 +15,17 @@ async function coolStory (repoFullName) {
   }
 
   const [owner, repo] = (repoFullName || '').split('/')
-  
+
   if (!owner || !repo) {
     return Promise.reject(new Error('First argument must be a GitHub repo in `owner/repo` format'))
   }
 
   const client = new GraphQLClient('https://api.github.com/graphql', {
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     }
   })
-  
+
   const query = `{
     repository(owner: "${owner}", name: "${repo}") {
       nameWithOwner
@@ -48,7 +48,7 @@ async function coolStory (repoFullName) {
   }`
 
   let result = {}
-  
+
   try {
     const {repository} = await client.request(query)
     Object.assign(result, repository)
@@ -61,7 +61,7 @@ async function coolStory (repoFullName) {
     result.packageJSON = JSON.parse(result.object.text)
     delete result.object
   }
-  
+
   return result
 }
 

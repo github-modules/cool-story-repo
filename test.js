@@ -9,7 +9,7 @@ test('it is a function', () => {
 
 describe('data', () => {
   let repo
-  
+
   beforeAll(async () => {
     repo = await coolStory('electron/electron')
   })
@@ -46,14 +46,20 @@ describe('error handling', () => {
       expect(err.message).toContain('First argument must be a GitHub repo')
     })
   })
-  
+
+  test('gracefully handles a nonexistent package.json file', async () => {
+    const repo = await coolStory('nice-registry/about')
+    expect(repo.nameWithOwner).toBe('nice-registry/about')
+    expect(repo.packageJSON).toBe(undefined)
+  })
+
   test('throws an error with bad input', async () => {
     expect.assertions(1)
     await coolStory('bad-input').catch(err => {
       expect(err.message).toContain('First argument must be a GitHub repo')
     })
   })
-  
+
   test('throws an error if GH_TOKEN is not found', async () => {
     const oldToken = process.env.GH_TOKEN
     delete process.env.GH_TOKEN
@@ -63,7 +69,7 @@ describe('error handling', () => {
       process.env.GH_TOKEN = oldToken
     })
   })
-  
+
   test('handles nonexistent repos', async () => {
     await coolStory('some/nonexistent-repo').catch(err => {
       expect(err.message).toContain('Could not resolve to a Repository')
