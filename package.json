@@ -1,21 +1,31 @@
 {
   "name": "cool-story-repo",
-  "version": "1.0.0",
+  "description": "Find out a lot about a GitHub repo using a single request to GitHub's GraphQL API",
+  "repository": "https://github.com/nice-registry/cool-story-repo",
+  "version": "0.0.0-development",
   "main": "index.js",
   "license": "MIT",
+  "dependencies": {
+    "graphql-request": "^1.5.1"
+  },
   "devDependencies": {
     "dotenv-safe": "^5.0.1",
     "jest": "^22.4.2",
-    "nock": "^9.2.3",
+    "lodash": "^4.17.5",
     "standard": "^11.0.0",
-    "standard-markdown": "^4.0.2"
-  },
-  "dependencies": {
-    "@octokit/rest": "^14.0.9",
-    "lodash": "^4.17.5"
+    "standard-markdown": "^4.0.2",
+    "semantic-release": "^12.4.1",
+    "travis-deploy-once": "^4.3.4"
   },
   "scripts": {
-    "test": "jest && standard",
-    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+    "test": "jest && standard --fix && standard-markdown",
+    "test:watch": "jest --watch --notify --notifyMode=change --coverage",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
+  },
+  "standard": {
+    "env": {
+      "jest": true
+    }
   }
 }
