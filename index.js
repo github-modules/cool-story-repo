@@ -57,6 +57,8 @@ async function coolStory (repoFullName) {
     })
   }
 
+  result.fetchedAt = new Date()
+
   return result
 }
 
