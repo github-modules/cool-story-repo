@@ -1,6 +1,6 @@
 {
   "name": "cool-story-repo",
-  "description": "Find out a lot about a GitHub repo using a single request to GitHub's GraphQL API",
+  "description": "Find out a lot about a GitHub repository with a single request to GitHub's GraphQL API",
   "repository": "https://github.com/nice-registry/cool-story-repo",
   "version": "0.0.0-development",
   "main": "index.js",
