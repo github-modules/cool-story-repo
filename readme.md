@@ -31,8 +31,8 @@ coolStory('electron/electron').then(repo => {
 })
 ```
 
-If `process.env.GH_TOKEN` is set, it'll be used to authenticate your request.
-If not, you're making unauthenticated requests.
+`process.env.GH_TOKEN` is required and should have "repo" scope.
+Need a token? [Get one here.](https://github.com/settings/tokens/new).
 
 ## API
 
