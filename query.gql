@@ -1,0 +1,20 @@
+query CoolStory ($owner: String!, $repo: String!) {
+  repository(owner: $owner, name: $repo) {
+    nameWithOwner
+    description
+    descriptionHTML
+    homepageUrl
+    isFork
+    forkCount
+    licenseInfo {
+      name
+    }
+    createdAt
+    pushedAt
+    object(expression: "master:package.json") {
+      ... on Blob {
+        text
+      }
+    }
+  }
+}

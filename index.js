@@ -1,4 +1,7 @@
 const {GraphQLClient} = require('graphql-request')
+const fs = require('fs')
+const path = require('path')
+const query = fs.readFileSync(path.join(__dirname, 'query.gql'), 'utf8')
 
 async function coolStory (repoFullName) {
   const token = process.env.GH_API_KEY ||
@@ -26,31 +29,12 @@ async function coolStory (repoFullName) {
     }
   })
 
-  const query = `{
-    repository(owner: "${owner}", name: "${repo}") {
-      nameWithOwner
-      description
-      descriptionHTML
-      homepageUrl
-      isFork
-      forkCount
-      licenseInfo {
-        name
-      }
-      createdAt
-      pushedAt
-      object(expression: "master:package.json") {
-        ... on Blob {
-          text
-        }
-      }
-    }
-  }`
+  const variables = {owner, repo}
 
   let result = {}
 
   try {
-    const {repository} = await client.request(query)
+    const {repository} = await client.request(query, variables)
     Object.assign(result, repository)
   } catch (err) {
     return Promise.reject(err)
