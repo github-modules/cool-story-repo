@@ -13,11 +13,15 @@
     "jest": "^22.4.2",
     "lodash": "^4.17.5",
     "standard": "^11.0.0",
-    "standard-markdown": "^4.0.2"
+    "standard-markdown": "^4.0.2",
+    "semantic-release": "^12.4.1",
+    "travis-deploy-once": "^4.3.4"
   },
   "scripts": {
     "test": "jest && standard --fix && standard-markdown",
-    "test:watch": "jest --watch --notify --notifyMode=change --coverage"
+    "test:watch": "jest --watch --notify --notifyMode=change --coverage",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "standard": {
     "env": {
