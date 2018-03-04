@@ -34,6 +34,12 @@ describe('data', () => {
     expect(repo.packageJSON.scripts).toBeTruthy()
   })
 
+  test('gets recent releases', async () => {
+    expect(Array.isArray(repo.releases)).toBe(true)
+    expect(repo.releases.every(isPlainObject)).toBe(true)
+    expect(repo.releases.every(release => Array.isArray(release.assets))).toBe(true)
+  })
+
   test('does not include undesireable data returned by the GitHub API', async () => {
     expect(repo.downloads_url).toBe(undefined)
   })
