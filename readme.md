@@ -5,11 +5,11 @@
 Included so far:
 
 - basic repo metadata
-- master branch's `package.json` data
+- 5 most recent releases
+- `package.json` data from master branch
 
 Wishlist:
 
-- Release data
 - Contributor data
 - SHA of the very first commit to the repo, for finding forks that dissociated from their origin repo.
 
