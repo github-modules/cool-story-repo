@@ -26,8 +26,10 @@ async function coolStory (repoFullName) {
     }
   })
 
-  const query = `{
-    repository(owner: "${owner}", name: "${repo}") {
+  const variables = {owner, repo}
+
+  const query = `query CoolStory ($owner: String!, $repo: String!) {
+    repository(owner: $owner, name: $repo) {
       nameWithOwner
       description
       descriptionHTML
@@ -50,7 +52,7 @@ async function coolStory (repoFullName) {
   let result = {}
 
   try {
-    const {repository} = await client.request(query)
+    const {repository} = await client.request(query, variables)
     Object.assign(result, repository)
   } catch (err) {
     return Promise.reject(err)
