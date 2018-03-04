@@ -1,17 +1,11 @@
 const {GraphQLClient} = require('graphql-request')
 const fs = require('fs')
 const path = require('path')
+const findGitHubToken = require('./lib/find-github-token')
 const query = fs.readFileSync(path.join(__dirname, 'query.gql'), 'utf8')
 
 async function coolStory (repoFullName) {
-  const token = process.env.GH_API_KEY ||
-      process.env.GH_API_TOKEN ||
-      process.env.GH_KEY ||
-      process.env.GH_TOKEN ||
-      process.env.GITHUB_API_KEY ||
-      process.env.GITHUB_API_TOKEN ||
-      process.env.GITHUB_KEY ||
-      process.env.GITHUB_TOKEN
+  const token = findGitHubToken()
 
   if (!token || !token.length) {
     return Promise.reject(new Error('`GH_TOKEN` env var must be set'))
