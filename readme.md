@@ -1,4 +1,4 @@
-# cool-story-repo 
+# 😎 cool-story-repo 
 
 > Find out a lot about a GitHub repo using a single request to GitHub's GraphQL API
 
