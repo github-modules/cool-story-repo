@@ -40,6 +40,10 @@ describe('data', () => {
     expect(repo.releases.every(release => Array.isArray(release.assets))).toBe(true)
   })
 
+  test('adds a fetchedAt prop with the current date', async () => {
+    expect(repo.fetchedAt.toISOString().slice(0, 10)).toMatch(/^20/)
+  })
+
   test('does not include undesireable data returned by the GitHub API', async () => {
     expect(repo.downloads_url).toBe(undefined)
   })
