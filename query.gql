@@ -18,7 +18,7 @@ query CoolStory ($owner: String!, $repo: String!) {
         text
       }
     }
-    
+
     # releases
     releases(first: 5, orderBy:{field:CREATED_AT, direction:DESC}) {
       edges {
@@ -48,6 +48,13 @@ query CoolStory ($owner: String!, $repo: String!) {
         hasNextPage
       }
     }
+
+    #collaborators
+     collaborators(affiliation: DIRECT, first: 100){
+        nodes{
+          name
+        }
+      }
 
   }
 }
