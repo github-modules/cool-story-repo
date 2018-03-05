@@ -8,10 +8,7 @@ Included so far:
 - 5 most recent releases
 - `package.json` data from master branch
 
-Wishlist:
-
-- Contributor data
-- SHA of the very first commit to the repo, for finding forks that dissociated from their origin repo.
+And a [wishlist](https://github.com/nice-registry/cool-story-repo/issues) of things to come.
 
 ## Installation
 
