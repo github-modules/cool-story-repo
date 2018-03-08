@@ -49,5 +49,20 @@ query CoolStory($owner: String!, $repo: String!) {
       }
     }
 
+    #collaborators
+     collaborators(affiliation: DIRECT, first: 100){
+        nodes{
+          name
+          avatarUrl
+          bio
+          company
+          contributedRepositories(first:100, orderBy:{field:UPDATED_AT, direction:DESC}){
+            nodes{
+              nameWithOwner
+            }
+          }
+        }
+      }
+
   }
 }
