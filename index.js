@@ -1,17 +1,20 @@
-require('dotenv-safe').load()
-const {GraphQLClient} = require('graphql-request')
+const { GraphQLClient } = require('graphql-request')
 const fs = require('fs')
 const path = require('path')
 const findGitHubToken = require('./lib/find-github-token')
-const buildQuery = require('./query')
-const repos = ['zeit/hyper', 'electron/electron']
+const query = fs.readFileSync(path.join(__dirname, 'query.gql'), 'utf8')
 
-
-
-async function coolStory () {
+async function coolStory(repoFullName) {
   const token = findGitHubToken()
+
   if (!token || !token.length) {
     return Promise.reject(new Error('`GH_TOKEN` env var must be set'))
+  }
+
+  const [owner, repo] = (repoFullName || '').split('/')
+
+  if (!owner || !repo) {
+    return Promise.reject(new Error('First argument must be a GitHub repo in `owner/repo` format'))
   }
 
   const client = new GraphQLClient('https://api.github.com/graphql', {
@@ -20,40 +23,37 @@ async function coolStory () {
     }
   })
 
+  const variables = { owner, repo }
+
   let result = {}
 
-    try{
-      const query = buildQuery(repos)
-      console.log('the query returned from buildQUery', query)
-      result = await client.request(`query CoolStory{${query}}`)
-    }catch(err){
-      return Promise.reject(`the promise was super rejected ${err}`)
-    }
-
-  //would do both of these in a for in loop of the aggregate results?
+  try {
+    const { repository } = await client.request(query, variables)
+    Object.assign(result, repository)
+  } catch (err) {
+    return Promise.reject(err)
+  }
 
   // clean up package.json
-  // if (result.object && result.object.text) {
-  //   result.packageJSON = JSON.parse(result.object.text)
-  //   delete result.object
-  // }
+  if (result.object && result.object.text) {
+    result.packageJSON = JSON.parse(result.object.text)
+    delete result.object
+  }
 
-  // // clean up releases
-  // if (result.releases && result.releases.edges) {
-  //   result.releases = result.releases.edges.map(edge => {
-  //     const release = edge.node
-  //     if (release.releaseAssets) {
-  //       release.assets = release.releaseAssets.edges.map(edge => edge.node)
-  //     }
-  //     return release
-  //   })
-  // }
+  // clean up releases
+  if (result.releases && result.releases.edges) {
+    result.releases = result.releases.edges.map(edge => {
+      const release = edge.node
+      if (release.releaseAssets) {
+        release.assets = release.releaseAssets.edges.map(edge => edge.node)
+      }
+      return release
+    })
+  }
 
   result.fetchedAt = new Date()
-  console.log('this is the result', result)
+
   return result
 }
-
-coolStory()
 
 module.exports = coolStory
