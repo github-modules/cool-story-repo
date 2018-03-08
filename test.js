@@ -41,12 +41,11 @@ describe('data', () => {
   })
 
   test('gets collaborator info', async () => {
-    expect(Array.isArray(repo.collaborators)).toBe(true)
-    expect(repo.collaborators.every(isPlainObject)).toBe(true)
-    expect(repo.collaborators.every(collaborator => Array.isArray(collaborator.contributedRespositories))).toBe(true)
-    expect(repo.collaborators.every(collaborator => collaborator.contributedRespositories.nameWithOwner)).toBeTruthy()
-    expect(repo.collaborators.name).toBeTruthy()
-    expect(repo.collaborators.nameWithOwner).toBeTruthy()
+    expect(isPlainObject(repo.collaborators)).toBe(true)
+    expect(Array.isArray(repo.collaborators.nodes)).toBe(true)
+    expect(repo.collaborators.nodes.every(node => node.name)).toBeTruthy()
+    expect(repo.collaborators.nodes.every(singleCollab => Array.isArray(singleCollab.contributedRepositories.nodes))).toBe(true)
+    expect(repo.collaborators.nodes.every(node => node.name)).toBeTruthy()
   })
 
   test('adds a fetchedAt prop with the current date', async () => {
