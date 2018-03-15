@@ -1,10 +1,10 @@
-const {GraphQLClient} = require('graphql-request')
+const { GraphQLClient } = require('graphql-request')
 const fs = require('fs')
 const path = require('path')
 const findGitHubToken = require('./lib/find-github-token')
 const query = fs.readFileSync(path.join(__dirname, 'query.gql'), 'utf8')
 
-async function coolStory (repoFullName) {
+async function coolStory(repoFullName) {
   const token = findGitHubToken()
 
   if (!token || !token.length) {
@@ -23,12 +23,12 @@ async function coolStory (repoFullName) {
     }
   })
 
-  const variables = {owner, repo}
+  const variables = { owner, repo }
 
   let result = {}
 
   try {
-    const {repository} = await client.request(query, variables)
+    const { repository } = await client.request(query, variables)
     Object.assign(result, repository)
   } catch (err) {
     return Promise.reject(err)
