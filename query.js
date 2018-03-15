@@ -1,18 +1,10 @@
-let owner, repo
-
 function buildQuery(arrOfRepos){
-  return arrOfRepos.reduce((completeQuery,repo, i) => {
-    [owner, repo] = (repoFullName || '').split('/')
+  const allSubqueries = arrOfRepos.map((repoName) => {
+    const [owner, repo] = (repoName || '').split('/')
     if (!owner || !repo) {
       return Promise.reject(new Error('First argument must be a GitHub repo in `owner/repo` format'))
     }
-    completeQuery.concat(`repo${i}:${query}`)
-    })
-    console.log('this is the complete query', completeQuery)
-    return completeQuery
-}
-
-const query = `repository(owner: ${owner}, name: ${repo}) {
+    const query = `repository(owner: "${owner}", name: "${repo}") {
     nameWithOwner
     description
     descriptionHTML
@@ -78,6 +70,12 @@ const query = `repository(owner: ${owner}, name: ${repo}) {
       }
 
   }`
+
+    return `${owner}___${repo}:${query}`
+    })
+    return `query CoolStory{${allSubqueries.join('\n\n')}}`
+}
+
 
 
 module.exports = buildQuery

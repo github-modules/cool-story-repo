@@ -14,7 +14,7 @@ describe('data', () => {
     repo = await coolStory('electron/electron')
   })
 
-  test('gets basic repo data', async () => {
+  test.only('gets basic repo data', async () => {
     expect(isPlainObject(repo)).toBe(true)
     expect(repo.nameWithOwner).toBe('electron/electron')
     expect(repo.description.length).toBeTruthy()
