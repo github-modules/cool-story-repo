@@ -1,4 +1,5 @@
 const coolStory = require('.')
+const buildQuery = require('./query')
 const {isPlainObject} = require('lodash')
 
 require('dotenv-safe').load()
@@ -11,18 +12,22 @@ describe('data', () => {
   let repo
 
   beforeAll(async () => {
-    repo = await coolStory('electron/electron')
+    repo = await coolStory('nice-registry/cool-story-repo')
   })
 
-  test.only('gets basic repo data', async () => {
+  test('gets basic repo data', async () => {
     expect(isPlainObject(repo)).toBe(true)
-    expect(repo.nameWithOwner).toBe('electron/electron')
+    expect(repo.nameWithOwner).toBe('nice-registry/cool-story-repo')
     expect(repo.description.length).toBeTruthy()
     expect(repo.descriptionHTML.length).toBeTruthy()
-    expect(repo.homepageUrl.length).toBeTruthy()
+    expect(repo.homepageUrl.length).toBeGreaterThanOrEqual(0)
     expect(repo.createdAt.length).toBeTruthy()
     expect(repo.pushedAt.length).toBeTruthy()
-    expect(repo.licenseInfo.name.length).toBeTruthy()
+    if (repo.licenseInfo) {
+      expect(repo.licenseInfo.name.length).toBeTruthy()
+    } else {
+      expect(repo.licenseInfo).toBeNull()
+    }
     expect(typeof repo.isFork).toBe('boolean')
     expect(repo.forkCount > -1).toBe(true)
   })
@@ -48,8 +53,8 @@ describe('data', () => {
     expect(repo.collaborators.nodes.every(node => node.name)).toBeTruthy()
   })
 
-  test('adds a fetchedAt prop with the current date', async () => {
-    expect(repo.fetchedAt.toISOString().slice(0, 10)).toMatch(/^20/)
+  test('adds a _fetchedAt prop with the current date', async () => {
+    expect(repo._fetchedAt.toISOString().slice(0, 10)).toMatch(/^20/)
   })
 
   test('does not include undesireable data returned by the GitHub API', async () => {
@@ -61,7 +66,7 @@ describe('error handling', () => {
   test('throws an error with empty input', async () => {
     expect.assertions(1)
     await coolStory().catch(err => {
-      expect(err.message).toContain('First argument must be a GitHub repo')
+      expect(err.message).toContain('First argument must be a GitHub repo or an array of GitHub repos')
     })
   })
 
@@ -73,7 +78,7 @@ describe('error handling', () => {
 
   test('throws an error with bad input', async () => {
     expect.assertions(1)
-    await coolStory('bad-input').catch(err => {
+     buildQuery('bad-input').catch(err => {
       expect(err.message).toContain('First argument must be a GitHub repo')
     })
   })
