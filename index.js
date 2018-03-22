@@ -11,6 +11,7 @@ async function coolStory (repos) {
   if (!token || !token.length) {
     return Promise.reject(new Error('`GH_TOKEN` env var must be set'))
   }
+
   if (!repos || !repos.length) {
     return Promise.reject(new Error('First argument must be a GitHub repo or an array of GitHub repos'))
   }
@@ -23,15 +24,10 @@ async function coolStory (repos) {
 
   let result = {}
 
-  try {
-    // if the incomming repos is a single repo, we assume it'll be a string
-    // and convert it to an array for buildQuery
-    if (typeof repos === 'string') repos = Array(repos)
-    const query = buildQuery(repos)
-    result = await client.request(query)
-  } catch (err) {
-    return Promise.reject(`The promise was rejected: ${err}`)
-  }
+  if (typeof repos === 'string') repos = Array(repos)
+  const query = buildQuery(repos)
+  result = await client.request(query)
+
 
   // iterate through each aliased query and call these on them to clean up
   // npm module for converting graphql to human friendly responses
@@ -63,7 +59,7 @@ async function coolStory (repos) {
 
   const keys = Object.keys(result)
 
-  //_fetchedAt property back in
+  // _fetchedAt property back in
   //
 
   // if only one repo, return repo object
@@ -78,7 +74,7 @@ async function coolStory (repos) {
   }, {})
 }
 
-coolStory('nice-registry/cool-story-repo')
-//.then(res => console.log('res', res))
+// coolStory('nice-registry/cool-story-repo')
+// .then(res => console.log('res', res))
 
 module.exports = coolStory

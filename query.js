@@ -2,7 +2,7 @@ function buildQuery (arrOfRepos) {
   const allSubqueries = arrOfRepos.map((repoName) => {
     let [owner, repo] = (repoName || '').split('/')
     if (!owner || !repo) {
-      return Promise.reject(new Error('First argument must be a GitHub repo in `owner/repo` format'))
+      throw new Error('First argument must be a GitHub repo in `owner/repo` format')
     }
     const query = `repository(owner: "${owner}", name: "${repo}") {
         nameWithOwner

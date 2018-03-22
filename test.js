@@ -1,5 +1,5 @@
 const coolStory = require('.')
-const buildQuery = require('./query')
+// const buildQuery = require('./query')
 const {isPlainObject} = require('lodash')
 
 require('dotenv-safe').load()
@@ -78,7 +78,7 @@ describe('error handling', () => {
 
   test('throws an error with bad input', async () => {
     expect.assertions(1)
-     buildQuery('bad-input').catch(err => {
+    coolStory('bad-input').catch(err => {
       expect(err.message).toContain('First argument must be a GitHub repo')
     })
   })
