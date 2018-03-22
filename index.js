@@ -23,45 +23,11 @@ async function coolStory (repos) {
     }
   })
 
-  const variables = { owner, repo }
-
   if (typeof repos === 'string') repos = Array(repos)
   const query = buildQuery(repos)
   result = await client.request(query)
 
-
-  // iterate through each aliased query and call these on them to clean up
-  // npm module for converting graphql to human friendly responses
-  // does graphql support renaming nodes
-  // could potentially be generalized, turn nodes and edges
-
-  function cleanUp (repoObj) {
-    // clean up package.json
-    if (repoObj.object && repoObj.object.text) {
-      repoObj.packageJSON = JSON.parse(repoObj.object.text)
-      delete repoObj.object
-    }
-
-    // clean up releases
-    if (repoObj.releases && repoObj.releases.edges) {
-      repoObj.releases = repoObj.releases.edges.map(edge => {
-        const release = edge.node
-        if (release.releaseAssets) {
-          release.assets = release.releaseAssets.edges.map(edge => edge.node)
-        }
-        return release
-      })
-    }
-
-    repoObj._fetchedAt = new Date()
-
-    return repoObj
-  }
-
   const keys = Object.keys(result)
-
-  // _fetchedAt property back in
-  //
 
   // if only one repo, return repo object
   if (keys.length === 1) return cleanUp(result[keys[0]])
@@ -75,7 +41,27 @@ async function coolStory (repos) {
   }, {})
 }
 
-// coolStory('nice-registry/cool-story-repo')
-// .then(res => console.log('res', res))
+function cleanUp (repoObj) {
+  // clean up package.json
+  if (repoObj.object && repoObj.object.text) {
+    repoObj.packageJSON = JSON.parse(repoObj.object.text)
+    delete repoObj.object
+  }
+
+  // clean up releases
+  if (repoObj.releases && repoObj.releases.edges) {
+    repoObj.releases = repoObj.releases.edges.map(edge => {
+      const release = edge.node
+      if (release.releaseAssets) {
+        release.assets = release.releaseAssets.edges.map(edge => edge.node)
+      }
+      return release
+    })
+  }
+
+  repoObj._fetchedAt = new Date()
+
+  return repoObj
+}
 
 module.exports = coolStory
