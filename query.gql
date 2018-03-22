@@ -1,3 +1,4 @@
+<<<<<<< HEAD:query.js
 function buildQuery (arrOfRepos) {
   const allSubqueries = arrOfRepos.map((repoName) => {
     let [owner, repo] = (repoName || '').split('/')
@@ -12,6 +13,33 @@ function buildQuery (arrOfRepos) {
         isFork
         forkCount
         licenseInfo {
+=======
+query CoolStory($owner: String!, $repo: String!) {
+  repository(owner: $owner, name: $repo) {
+    nameWithOwner
+    description
+    descriptionHTML
+    homepageUrl
+    isFork
+    forkCount
+    licenseInfo {
+      name
+    }
+    createdAt
+    pushedAt
+
+    # package.json
+    object(expression: "master:package.json") {
+      ...on Blob {
+        text
+      }
+    }
+
+    # releases
+    releases(first: 5, orderBy: { field: CREATED_AT, direction: DESC }) {
+      edges {
+        node {
+>>>>>>> a72f1d335fabec98f53f00b7f4f74001e1f57f58:query.gql
           name
         }
         createdAt
@@ -49,6 +77,7 @@ function buildQuery (arrOfRepos) {
             hasNextPage
           }
         }
+<<<<<<< HEAD:query.js
         collaborators(affiliation: DIRECT, first: 100) {
           nodes {
             name
@@ -73,3 +102,29 @@ function buildQuery (arrOfRepos) {
 }
 
 module.exports = buildQuery
+=======
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+
+    #collaborators
+     collaborators(affiliation: DIRECT, first: 100){
+        nodes{
+          name
+          avatarUrl
+          bio
+          company
+          contributedRepositories(first:100, orderBy:{field:UPDATED_AT, direction:DESC}){
+            nodes{
+              nameWithOwner
+            }
+          }
+        }
+      }
+
+  }
+}
+>>>>>>> a72f1d335fabec98f53f00b7f4f74001e1f57f58:query.gql

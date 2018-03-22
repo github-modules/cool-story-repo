@@ -8,6 +8,7 @@ const buildQuery = require('./query')
 
 async function coolStory (repos) {
   const token = findGitHubToken()
+
   if (!token || !token.length) {
     return Promise.reject(new Error('`GH_TOKEN` env var must be set'))
   }
@@ -22,7 +23,7 @@ async function coolStory (repos) {
     }
   })
 
-  let result = {}
+  const variables = { owner, repo }
 
   if (typeof repos === 'string') repos = Array(repos)
   const query = buildQuery(repos)
