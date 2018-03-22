@@ -1,8 +1,6 @@
 require('dotenv-safe').load()
 require('make-promises-safe')
 const {GraphQLClient} = require('graphql-request')
-const fs = require('fs')
-const path = require('path')
 const findGitHubToken = require('./lib/find-github-token')
 const buildQuery = require('./query')
 
@@ -22,6 +20,8 @@ async function coolStory (repos) {
       Authorization: `Bearer ${token}`
     }
   })
+
+  let result = {}
 
   if (typeof repos === 'string') repos = Array(repos)
   const query = buildQuery(repos)
