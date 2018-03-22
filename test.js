@@ -1,5 +1,4 @@
 const coolStory = require('.')
-// const buildQuery = require('./query')
 const {isPlainObject} = require('lodash')
 
 require('dotenv-safe').load()
