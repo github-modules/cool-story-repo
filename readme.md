@@ -27,17 +27,26 @@ coolStory('electron/electron').then(repo => {
   console.log(repo)
 })
 ```
+coolStory can also optionally accept an array of repos.
 
-`process.env.GH_TOKEN` is required and should have "repo" scope.
+```js
+const coolStory = require('cool-story-repo')
+
+coolStory(['electron/electron', 'zeit/hyper']).then(repos => {
+  console.log(repos)
+})
+```
+
+Unlike github's REST API, the github GraphQL API requires authentication for all requests. `process.env.GH_TOKEN` is required and should have "repo" scope.
 Need a token? [Get one here.](https://github.com/settings/tokens/new).
 
 ## API
 
 ### `coolStory(repoName)`
 
-- `repoName` - A required string in `owner/repo` format.
+- `repoName` - A required string or array of strings in `owner/repo` format.
 
-Returns a Promise that resolves to a key-value repository Object.
+Returns a Promise that resolves to a key-value repository Object or an array of repository Objects.
 
 ## Tests
 
