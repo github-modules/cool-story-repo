@@ -49,19 +49,6 @@ function buildQuery (arrOfRepos) {
             hasNextPage
           }
         }
-        collaborators(affiliation: DIRECT, first: 100) {
-          nodes {
-            name
-            avatarUrl
-            bio
-            company
-            contributedRepositories(first: 100) {
-              nodes {
-                nameWithOwner
-              }
-            }
-          }
-        }
       }`
 
     // replaces - with _ for aliases because graphQL doesnt like -
