@@ -6,7 +6,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "graphql-request": "^1.5.1"
+    "graphql-request": "^1.5.1",
+    "humanize-graphql-response": "^1.0.0"
   },
   "devDependencies": {
     "dotenv-safe": "^5.0.1",
