@@ -32,7 +32,7 @@ function buildQuery (arrOfRepos) {
               tag {
                 name
               }
-              releaseAssets(first: 100) {
+              assets:releaseAssets(first: 100) {
                 edges {
                   node {
                     name

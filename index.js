@@ -1,6 +1,7 @@
 require('dotenv-safe').load()
 require('make-promises-safe')
 const {GraphQLClient} = require('graphql-request')
+const humanizeResponse = require('humanize-graphql-response')
 const findGitHubToken = require('./lib/find-github-token')
 const buildQuery = require('./query')
 
@@ -42,21 +43,12 @@ async function coolStory (repos) {
 }
 
 function cleanUp (repoObj) {
+  repoObj = humanizeResponse(repoObj)
+
   // clean up package.json
   if (repoObj.object && repoObj.object.text) {
     repoObj.packageJSON = JSON.parse(repoObj.object.text)
     delete repoObj.object
-  }
-
-  // clean up releases
-  if (repoObj.releases && repoObj.releases.edges) {
-    repoObj.releases = repoObj.releases.edges.map(edge => {
-      const release = edge.node
-      if (release.releaseAssets) {
-        release.assets = release.releaseAssets.edges.map(edge => edge.node)
-      }
-      return release
-    })
   }
 
   repoObj._fetchedAt = new Date()
