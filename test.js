@@ -70,8 +70,8 @@ describe('error handling', () => {
   })
 
   test('gracefully handles a nonexistent package.json file', async () => {
-    const repo = await coolStory('nice-registry/about')
-    expect(repo.nameWithOwner).toBe('nice-registry/about')
+    const repo = await coolStory('nice-registry/welcome')
+    expect(repo.nameWithOwner).toBe('nice-registry/welcome')
     expect(repo.packageJSON).toBe(undefined)
   })
 
