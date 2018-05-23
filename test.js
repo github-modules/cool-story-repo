@@ -34,6 +34,13 @@ describe('data', () => {
     expect(repo.packageJSON.scripts).toBeTruthy()
   })
 
+  test('gets app/package.json contents', async () => {
+    const repo = await coolStory('dat-land/dat-desktop')
+    expect(repo.appDirPackageJSON).toBeTruthy()
+    expect(repo.appDirPackageJSON.dependencies).toBeTruthy()
+    expect(repo.appDirPackageJSON.devDependencies).toBeTruthy()
+  })
+
   test('gets recent releases', async () => {
     expect(Array.isArray(repo.releases)).toBe(true)
     expect(repo.releases.every(isPlainObject)).toBe(true)

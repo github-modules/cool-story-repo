@@ -13,7 +13,16 @@ query CoolStory($owner: String!, $repo: String!) {
     pushedAt
 
     # package.json
-    object(expression: "master:package.json") {
+    object:packageJSON(expression: "master:package.json") {
+      ...on Blob {
+        text
+      }
+    }
+
+    # app/package.json 
+    # for electron-builder apps with two package.json files
+    # https://www.electron.build/tutorials/two-package-structure
+    object:appDirPackageJSON(expression: "master:app/package.json") {
       ...on Blob {
         text
       }

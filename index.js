@@ -35,9 +35,12 @@ async function coolStory(repoFullName) {
   }
 
   // clean up package.json
-  if (result.object && result.object.text) {
-    result.packageJSON = JSON.parse(result.object.text)
-    delete result.object
+  if (result.packageJSON && result.packageJSON.text) {
+    result.packageJSON = JSON.parse(result.packageJSON.text)
+  }
+
+  if (result.appDirPackageJSON && result.appDirPackageJSON.text) {
+    result.appDirPackageJSON = JSON.parse(result.appDirPackageJSON.text)
   }
 
   // clean up releases
