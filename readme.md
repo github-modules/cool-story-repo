@@ -38,7 +38,7 @@ coolStory(['electron/electron', 'zeit/hyper']).then(repos => {
 ```
 
 Unlike github's REST API, the github GraphQL API requires authentication for all requests. `process.env.GH_TOKEN` is required and should have "repo" scope.
-Need a token? [Get one here.](https://github.com/settings/tokens/new).
+Need a token? [Get one here](https://github.com/settings/tokens/new).
 
 ## API
 
